@@ -24,7 +24,7 @@ pip install torch numpy matplotlib gensim transformers scikit-learn
 
 ## Dataset
 
-The experiments use the Python-1K dataset, a subset of student Python programs. Due to privacy concerns, the dataset is not included in this repository but can be obtained by contacting the authors of the original paper introducing this dataset.
+The experiments use the Python-1K dataset, a subset of student Python programs. The dataset is included in this repository.
 
 ## Code Structure
 ```
