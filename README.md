@@ -87,7 +87,3 @@ This code is released under the MIT License.
 [1] Th. Martinet, G.  Cleuziou, M. Exbrayat et F. Flouvat. Enrichissement d'embeddings de code par contraintes expertes pour l'enseignement de la programmation. 26èmes Journées Extraction et Gestion des Connaissances (EGC 2026), Jan 2026, Anglet, France (À paraître).
 
 [2] G. Cleuziou and F. Flouvat. Learning student program embeddings using abstract execution traces. In 14th Int. Conf. on Educational Data Mining, pages 252–262, Paris, France, June 2021. 
-
-## Contact
-
-For questions about the code during the review period, please open an issue in this repository.
