@@ -1,6 +1,6 @@
 # Doc2Vec with Constraints for Program Embeddings
 
-This repository contains the code accompanying the paper "Enrichissement d'embeddings de code par contraintes expertes pour l'enseignement de la programmation" submitted to EGC 2026.
+This repository contains the code accompanying the paper "Enrichissement d'embeddings de code par contraintes expertes pour l'enseignement de la programmation" published by Thibaut Martinet et al. to EGC 2026 [1].
 
 ## Overview
 
@@ -24,7 +24,7 @@ pip install torch numpy matplotlib gensim transformers scikit-learn
 
 ## Dataset
 
-The experiments use the Python-1K dataset, a subset of student Python programs. The dataset is included in this repository.
+The experiments use the NC1014 dataset [2], a subset of student Python programs. The dataset is included in this repository.
 
 ## Code Structure
 ```
@@ -81,6 +81,12 @@ inference_results = trainer.infer_new_documents(
 inferred_embeddings = inference_results['embeddings']
 ```
 This code is released under the MIT License.
+
+## References
+
+[1] Th. Martinet, G.  Cleuziou, M. Exbrayat et F. Flouvat. Enrichissement d'embeddings de code par contraintes expertes pour l'enseignement de la programmation. 26èmes Journées Extraction et Gestion des Connaissances (EGC 2026), Jan 2026, Anglet, France (À paraître).
+
+[2] G. Cleuziou and F. Flouvat. Learning student program embeddings using abstract execution traces. In 14th Int. Conf. on Educational Data Mining, pages 252–262, Paris, France, June 2021. 
 
 ## Contact
 
