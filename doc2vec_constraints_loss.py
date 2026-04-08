@@ -13,6 +13,60 @@ import glob
 import matplotlib.pyplot as plt
 from itertools import combinations
 
+class NegativeSampler:
+    """Classe pour gérer l'échantillonnage négatif"""
+    
+    def __init__(self, vocab_size, word_counts, power=0.75):
+        self.vocab_size = vocab_size
+        self.power = power
+        self.create_sampling_table(word_counts)
+    
+    def create_sampling_table(self, word_counts):
+        """Crée une table d'échantillonnage basée sur les fréquences des mots"""
+        total_count = sum(word_counts.values())
+        
+        sampling_probs = []
+        for word_idx in range(self.vocab_size):
+            count = word_counts.get(word_idx, 1)
+            prob = (count / total_count) ** self.power
+            sampling_probs.append(prob)
+        
+        total_prob = sum(sampling_probs)
+        self.sampling_probs = [p / total_prob for p in sampling_probs]
+        
+        # Table d'échantillonnage
+        table_size = 1000000
+        self.sampling_table = []
+        
+        for word_idx, prob in enumerate(self.sampling_probs):
+            count = int(prob * table_size)
+            self.sampling_table.extend([word_idx] * count)
+        
+        random.shuffle(self.sampling_table)
+        print(f"Table d'échantillonnage créée: {len(self.sampling_table)} entrées")
+    
+    def sample_negative_words(self, positive_words, num_samples):
+        """Échantillonne des mots négatifs"""
+        positive_set = set(positive_words) if isinstance(positive_words, list) else {positive_words}
+        negative_words = []
+        
+        attempts = 0
+        max_attempts = num_samples * 10
+        
+        while len(negative_words) < num_samples and attempts < max_attempts:
+            word_idx = random.choice(self.sampling_table)
+            if word_idx not in positive_set:
+                negative_words.append(word_idx)
+            attempts += 1
+        
+        # Compléter si nécessaire
+        while len(negative_words) < num_samples:
+            word_idx = random.randint(0, self.vocab_size - 1)
+            if word_idx not in positive_set:
+                negative_words.append(word_idx)
+        
+        return negative_words
+
 class Doc2VecWithDynamicConstraints(nn.Module):
     def __init__(self, vocab_size, num_docs, embed_dim=300, pretrained_embeddings=None, 
                  freeze_embeddings=False, negative_samples=5, initW=0.5, initD=0.5):
@@ -391,7 +445,7 @@ class EnhancedDoc2VecTrainerWithDynamicConstraints:
                            Exemple: [50, 100, 150]
         """
         # Importation locale pour éviter la duplication de code
-        from doc2vec import NegativeSampler  # Assume la classe existe dans le fichier original
+        #from doc2vec import NegativeSampler  # Assume la classe existe dans le fichier original
         
         # Configuration de la sauvegarde
         should_save_checkpoints = save_at_epochs is not None and save_directory is not None
@@ -598,7 +652,7 @@ class EnhancedDoc2VecTrainerWithDynamicConstraints:
         Returns:
             tuple: (doc_embeddings, context_embeddings, output_embeddings)
         """
-        from doc2vec import NegativeSampler
+        #from doc2vec import NegativeSampler
         
         # Charger le checkpoint pour récupérer les embeddings de mots pré-entraînés
         print(f"Chargement du checkpoint: {checkpoint_path}")
@@ -1283,7 +1337,7 @@ class EnhancedDoc2VecTrainerWithDynamicConstraints:
             loss_history = np.load(loss_history_path, allow_pickle=True).item()
         
         # Recréer le negative sampler
-        from doc2vec import NegativeSampler
+        #from doc2vec import NegativeSampler
         self.negative_sampler = NegativeSampler(metadata['vocab_size'], self.word_counts)
         
         self.trained_model = model
